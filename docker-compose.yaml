@@ -1,0 +1,53 @@
+version: '3.9'
+
+services:
+  php:
+    build:
+      context: ./docker/php
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    container_name: php_container_v1
+    volumes:
+      - ./:/var/www/
+    networks:
+      - internal
+    env_file:
+      - .env
+
+  nginx:
+    build: ./docker/nginx
+    container_name: nginx_container_v1
+    volumes:
+      - ./:/var/www/
+    ports:
+      - "8080:80"
+    networks:
+      - internal
+
+  pgsql:
+    container_name: pgsql_container_v1
+    build: ./docker/postgres
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_PASSWORD=${PG_PASSWORD}
+      - POSTGRES_USER=${PG_USER:-}
+      - POSTGRES_DB=${PG_DB:-}
+    volumes:
+      - pgsql-data:/var/lib/postgresql/data:rw
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER" ]
+      retries: 3
+      timeout: 5s
+    networks:
+      - internal
+    env_file:
+      - .env
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  pgsql-data:
