@@ -1,0 +1,19 @@
+App\Clients\Domain\Entity\Client:
+  properties:
+    firstName:
+      NotBlank: ~
+    lastName:
+      NotBlank: ~
+    email:
+      Email: ~
+    deliveryAddress:
+      Collection:
+        fields:
+          region:
+            NotBlank: ~
+          city:
+            NotBlank: ~
+          street:
+            NotBlank: ~
+          building_number:
+            NotBlank: ~

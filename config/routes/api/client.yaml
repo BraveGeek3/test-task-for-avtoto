@@ -1,0 +1,4 @@
+client:
+  resource: '../../../src/Clients/Infrastructure/Controller/'
+  type: annotation
+  prefix: /client

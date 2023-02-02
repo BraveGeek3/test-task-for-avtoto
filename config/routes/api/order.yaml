@@ -1,0 +1,4 @@
+order:
+  resource: '../../../src/Orders/Infrastructure/Controller/'
+  type: annotation
+  prefix: /order

@@ -1,0 +1,4 @@
+warehouse:
+  resource: '../../../src/Warehouses/Infrastructure/Controller/'
+  type: annotation
+  prefix: /warehouse

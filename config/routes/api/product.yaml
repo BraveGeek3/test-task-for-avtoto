@@ -1,0 +1,4 @@
+product:
+  resource: '../../../src/Products/Infrastructure/Controller/'
+  type: annotation
+  prefix: /product
