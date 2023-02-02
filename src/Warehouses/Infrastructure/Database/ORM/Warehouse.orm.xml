@@ -1,0 +1,17 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Warehouses\Domain\Entity\Warehouse" table="warehouses">
+        <id name="id" type="string">
+            <generator strategy="AUTO"/>
+        </id>
+        <one-to-one field="address" target-entity="App\Shared\Domain\Entity\Address\Address">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-one>
+        <one-to-many field="products" target-entity="App\Products\Domain\Entity\Product" mapped-by="warehouse">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-many>
+    </entity>
+</doctrine-mapping>
