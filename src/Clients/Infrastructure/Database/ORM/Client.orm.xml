@@ -1,0 +1,18 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Clients\Domain\Entity\Client" table="clients">
+        <id name="id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+        <field name="firstName" type="string"/>
+        <field name="lastName" type="string"/>
+        <field name="patronymic" type="string" nullable="true"/>
+        <field name="email" nullable="false" type="string" unique="true"/>
+        <field name="phoneNumber" nullable="false" type="string" unique="true"/>
+<!--        <field name="deliveryAddress" column="delivery_address" type="string"/>-->
+        <one-to-many field="orders" target-entity="App\Orders\Domain\Entity\Order" mapped-by="client">
+<!--            <cascade>-->
+<!--                <cascade-persist/>-->
+<!--            </cascade>-->
+        </one-to-many>
+    </entity>
+</doctrine-mapping>
