@@ -1,0 +1,18 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Shared\Domain\Entity\Address\Address" table="addresses">
+        <id name="id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+        <field name="region" type="string" nullable="true"/>
+        <field name="city" type="string"/>
+        <field name="street" type="string" nullable="true"/>
+        <field name="buildingNumber" column="building_number" type="string" nullable="true"/>
+        <field name="type">
+            <options>
+                <option name="default">
+                    Доставка
+                </option>
+            </options>
+        </field>
+    </entity>
+</doctrine-mapping>
