@@ -1,0 +1,14 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <entity name="App\Orders\Domain\Entity\OrdersProducts" table="orders_products">
+        <id name="id" type="string">
+            <generator strategy="NONE"/>
+        </id>
+        <many-to-one field="product" target-entity="App\Products\Domain\Entity\Product" inversed-by="orders">
+            <join-column nullable="false"/>
+        </many-to-one>
+        <many-to-one field="order" target-entity="App\Orders\Domain\Entity\Order" inversed-by="products">
+            <join-column nullable="false"/>
+        </many-to-one>
+        <field name="orderedCount" column="ordered_count" type="integer"/>
+    </entity>
+</doctrine-mapping>
