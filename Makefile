@@ -1,3 +1,6 @@
+PHP := php
+CONSOLE := $(PHP) ./bin/console
+
 build:
 	#build and run containers detach
 	docker-compose up -d --build
@@ -17,3 +20,28 @@ down:
 get-inside:
 	#get into already running container
 	docker exec -it ${container} /bin/bash
+
+test:
+	$(PHP) ./vendor/bin/phpunit --configuration phpunit.xml ./tests/
+
+load-fixtures:
+	$(CONSOLE) doctrine:fixtures:load --env=test
+
+validate:
+	$(CONSOLE) doctrine:schema:validate
+
+diff:
+	$(CONSOLE) doctrine:migrations:diff
+
+migrate:
+	$(CONSOLE) doctrine:migrations:migrate
+
+install-assets:
+	$(CONSOLE) assets:install --symlink
+
+#To use outside docker
+delete-containers:
+	docker rm -f $$(docker ps -a -q)
+
+delete-volumes:
+	docker volume rm $$(docker volume ls -q)
