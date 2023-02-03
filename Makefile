@@ -34,10 +34,10 @@ diff:
 	$(CONSOLE) doctrine:migrations:diff
 
 migrate:
-	$(CONSOLE) doctrine:migrations:migrate
+	$(CONSOLE) --no-interaction doctrine:migrations:migrate
 
 install-assets:
-	$(CONSOLE) assets:install --symlink
+	$(CONSOLE) --no-interaction assets:install --symlink
 
 #To use outside docker
 delete-containers:
