@@ -20,6 +20,5 @@ services:
             - '../src/Entity/'
             - '../src/Shared/Infrastructure/Kernel.php'
 
-#    App\Controller\:
-#        resource: '../src/Controller/'
-#        tags: [ 'controller.service_arguments' ]
+    App\Shared\Infrastructure\EventListener\ExceptionListener:
+        tags: [kernel.event_listener]

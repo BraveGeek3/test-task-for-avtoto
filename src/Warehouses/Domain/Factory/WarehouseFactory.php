@@ -8,19 +8,17 @@ use App\Warehouses\Domain\Entity\Warehouse;
 
 class WarehouseFactory
 {
-    public static function create(array $addressData, array $products): Warehouse
+    public static function create(CreateAddress $addressDto): Warehouse
     {
         $warehouse = new Warehouse();
 
-        //TODO: поменять на DTO
-        $addressDto = CreateAddress::createFromRequest($addressData);
         $address = AddressFactory::createForWarehouse($addressDto);
         $warehouse
             ->setAddress($address);
 
-        foreach ($products as $product) {
-            $warehouse->addProduct($product);
-        }
+//        foreach ($products as $product) {
+//            $warehouse->addProduct($product);
+//        }
 
         return $warehouse;
     }

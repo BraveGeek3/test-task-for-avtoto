@@ -7,6 +7,10 @@
         <field name="price" type="integer"/>
         <field name="availableCount" column="available_count"/>
         <many-to-one field="warehouse" target-entity="App\Warehouses\Domain\Entity\Warehouse" inversed-by="products"/>
-        <one-to-many field="orders" target-entity="App\Orders\Domain\Entity\OrdersProducts" mapped-by="product"/>
+        <one-to-many field="orders" target-entity="App\Orders\Domain\Entity\OrdersProducts" mapped-by="product">
+            <cascade>
+                <cascade-remove/>
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

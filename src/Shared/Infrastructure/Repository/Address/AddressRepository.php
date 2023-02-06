@@ -3,6 +3,7 @@
 namespace App\Shared\Infrastructure\Repository\Address;
 
 use App\Shared\Domain\Entity\Address\Address;
+use App\Shared\Domain\ValueObject\CreateAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,13 +14,13 @@ class AddressRepository extends ServiceEntityRepository
         parent::__construct($registry, Address::class);
     }
 
-    public function findByFullAddress(array $addressData, string $type = 'Доставка'): ?Address
+    public function findByFullAddress(CreateAddress $addressDto, string $type = 'Доставка'): ?Address
     {
         return parent::findOneBy([
-            'region' => $addressData['region'],
-            'city' => $addressData['city'],
-            'street' => $addressData['street'],
-            'buildingNumber' => $addressData['buildingNumber'],
+            'region' => $addressDto->getRegion(),
+            'city' => $addressDto->getCity(),
+            'street' => $addressDto->getStreet(),
+            'buildingNumber' => $addressDto->getBuildingNumber(),
             'type' => $type
         ]);
     }

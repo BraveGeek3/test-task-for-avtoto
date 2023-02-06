@@ -29,7 +29,9 @@ class ClientRepository extends ServiceEntityRepository implements ClientReposito
 
     public function findByEmail(string $email): ?Client
     {
-        return parent::findOneBy(['email' => $email]);
+        return parent::findOneBy([
+            'email' => $email
+        ]);
     }
 
     public function findByEmailAndPhoneNumber(string $email, string $phoneNumber): ?Client
@@ -45,5 +47,21 @@ class ClientRepository extends ServiceEntityRepository implements ClientReposito
         return parent::findOneBy([
             'phoneNumber' => $phoneNumber
         ]);
+    }
+
+    /**
+     * @param string $email
+     * @param string $phoneNumber
+     * @return bool
+     */
+    public function isExists(string $email, string $phoneNumber): bool
+    {
+        if (
+            null !== $this->findByEmail($email) ||
+            null !== $this->findByPhoneNumber($phoneNumber)
+        )
+            return true;
+
+        return false;
     }
 }

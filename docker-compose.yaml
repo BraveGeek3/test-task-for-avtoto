@@ -11,12 +11,14 @@ services:
     container_name: php_container_v1
     volumes:
       - ./:/var/www/
-      - /var/www/vendor/
-      - /var/www/var/
+#      - /var/www/vendor
+#      - /var/www/var:rw
     networks:
       - internal
     env_file:
       - .env
+    depends_on:
+      - pgsql
 
   nginx:
     build: ./docker/nginx
@@ -27,6 +29,8 @@ services:
       - "8080:80"
     networks:
       - internal
+    depends_on:
+      - php
 
   pgsql:
     container_name: pgsql_container_v1

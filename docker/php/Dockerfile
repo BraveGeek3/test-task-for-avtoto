@@ -22,7 +22,7 @@ RUN userdel -f www-data &&\
     useradd -l -u ${USER_ID} -g www-data www-data &&\
     install -d -m 0777 -o www-data -g www-data /home/www-data
 
-RUN chown www-data:www-data /var/www
+RUN chown -R www-data:www-data /var/www
 RUN pwd ./
 WORKDIR /var/www
 
@@ -34,9 +34,12 @@ COPY ./docker/php/xdebug.ini "${PHP_INI_DIR}/conf.d"
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-RUN composer install --no-interaction
+#RUN composer install --no-interaction
 
-CMD ["make", "migrate"]
-CMD ["make", "install-assets"]
+#CMD ["make", "migrate"]
+##CMD ["make", "install-assets"]
+#CMD php-fpm
+CMD ["sh", "-c", "make initialize"]
+#CMD ["make", "install-assets"]
 
-CMD php-fpm
+

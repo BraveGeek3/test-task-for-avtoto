@@ -7,7 +7,7 @@
             <join-column nullable="false"/>
         </many-to-one>
         <many-to-one field="order" target-entity="App\Orders\Domain\Entity\Order" inversed-by="products">
-            <join-column nullable="false"/>
+            <join-column nullable="false" on-delete="CASCADE"/>
         </many-to-one>
         <field name="orderedCount" column="ordered_count" type="integer"/>
     </entity>

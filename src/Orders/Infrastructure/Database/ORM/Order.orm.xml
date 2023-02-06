@@ -3,7 +3,7 @@
         <id name="id" type="string">
             <generator strategy="NONE"/>
         </id>
-        <field name="transportCompanyId" column="transport_company_id"/>
+        <field name="transportCompanyId" column="transport_company_id" nullable="true"/>
         <field name="createdAt" column="created_at"/>
         <field name="status" nullable="false"/>
         <field name="deliveryPrice" column="delivery_price" nullable="true"/>
