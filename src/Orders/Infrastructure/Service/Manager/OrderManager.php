@@ -40,7 +40,10 @@ class OrderManager
             throw new InvalidArgumentException("orderId is missing");
         }
 
-        $order = $this->orderRepository->findById($data['orderId']);
+        if (($order = $this->orderRepository->findById($data['orderId'])) === null) {
+            throw new InvalidArgumentException("Invalid order id");
+        }
+
         $order->setClient(null);
         $order->setAddress(null);
 
@@ -81,7 +84,9 @@ class OrderManager
         $productsData = $createOrderDto->getProducts();
 
         $clientCity= $addressData['city'];
-        $client = $this->getClient($clientData['email'], $clientData['phoneNumber']);
+
+        $client = $this->clientRepository->findByEmail($clientData['email']);
+//        $client = $this->getClient($clientData['email'], $clientData['phoneNumber']);
 
         $products = $this->getProducts($productsData);
 
@@ -136,19 +141,21 @@ class OrderManager
                 throw new InvalidArgumentException("Required product count is higher then available count");
             }
 
+            $product->reduceAmount($productsDatum['count']);
+
             $result[] = $product;
         }
 
         return $result;
     }
 
-    /**
-     * @param string $email
-     * @param string $phoneNumber
-     * @return Client|null
-     */
-    private function getClient(string $email, string $phoneNumber): ?Client
-    {
-        return $this->clientRepository->findByEmailAndPhoneNumber($email, $phoneNumber);
-    }
+//    /**
+//     * @param string $email
+//     * @param string $phoneNumber
+//     * @return Client|null
+//     */
+//    private function getClient(string $email, string $phoneNumber): ?Client
+//    {
+//        return $this->clientRepository->findByEmailAndPhoneNumber($email, $phoneNumber);
+//    }
 }

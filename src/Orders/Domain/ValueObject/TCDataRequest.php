@@ -11,12 +11,6 @@ class TCDataRequest
     private string $transportCompanyId;
     private float $deliveryPrice;
 
-    private const REQUIRED_FIELDS = [
-        'orderId',
-        'transportCompanyId',
-        'deliveryPrice'
-    ];
-
     private function __construct(
         string $orderId,
         string $transportCompanyId,
@@ -38,12 +32,12 @@ class TCDataRequest
         foreach ($properties as $property) {
             $propValue = $property->getName();
             if (!isset($data[$propValue])) {
-                throw new \InvalidArgumentException("$propValue field is missing");
+                throw new InvalidArgumentException("$propValue field is missing");
             }
         }
 
         if (!IdentifierService::isValid($data['orderId'])) {
-            throw new InvalidArgumentException(["Invalid order id"]);
+            throw new InvalidArgumentException("Invalid order id");
         }
 
         return new self($data['orderId'], $data['transportCompanyId'], $data['deliveryPrice']);

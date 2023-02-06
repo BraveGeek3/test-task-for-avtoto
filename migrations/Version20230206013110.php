@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230201083320 extends AbstractMigration
+final class Version20230206013110 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,7 +27,7 @@ final class Version20230201083320 extends AbstractMigration
         $this->addSql('CREATE TABLE clients (id VARCHAR(255) NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, patronymic VARCHAR(255) DEFAULT NULL, email VARCHAR(255) NOT NULL, phone_number VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C82E74E7927C74 ON clients (email)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C82E746B01BC5B ON clients (phone_number)');
-        $this->addSql('CREATE TABLE orders (id VARCHAR(255) NOT NULL, client_id VARCHAR(255) NOT NULL, address_id VARCHAR(255) DEFAULT NULL, transport_company_id VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, status VARCHAR(255) NOT NULL, delivery_price DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE orders (id VARCHAR(255) NOT NULL, client_id VARCHAR(255) NOT NULL, address_id VARCHAR(255) DEFAULT NULL, transport_company_id VARCHAR(255) DEFAULT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, status VARCHAR(255) NOT NULL, delivery_price DOUBLE PRECISION DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E52FFDEE19EB6921 ON orders (client_id)');
         $this->addSql('CREATE INDEX IDX_E52FFDEEF5B7AF75 ON orders (address_id)');
         $this->addSql('CREATE TABLE orders_products (id VARCHAR(255) NOT NULL, product_id VARCHAR(255) NOT NULL, order_id VARCHAR(255) NOT NULL, ordered_count INT NOT NULL, PRIMARY KEY(id))');
@@ -41,7 +41,7 @@ final class Version20230201083320 extends AbstractMigration
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEE19EB6921 FOREIGN KEY (client_id) REFERENCES clients (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE orders ADD CONSTRAINT FK_E52FFDEEF5B7AF75 FOREIGN KEY (address_id) REFERENCES addresses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE orders_products ADD CONSTRAINT FK_749C879C4584665A FOREIGN KEY (product_id) REFERENCES products (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE orders_products ADD CONSTRAINT FK_749C879C8D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE orders_products ADD CONSTRAINT FK_749C879C8D9F6D38 FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE products ADD CONSTRAINT FK_B3BA5A5A5080ECDE FOREIGN KEY (warehouse_id) REFERENCES warehouses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE warehouses ADD CONSTRAINT FK_AFE9C2B7F5B7AF75 FOREIGN KEY (address_id) REFERENCES addresses (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
@@ -49,7 +49,7 @@ final class Version20230201083320 extends AbstractMigration
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-//        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('CREATE SCHEMA public');
         $this->addSql('DROP SEQUENCE warehouses_id_seq CASCADE');
         $this->addSql('ALTER TABLE orders DROP CONSTRAINT FK_E52FFDEE19EB6921');
         $this->addSql('ALTER TABLE orders DROP CONSTRAINT FK_E52FFDEEF5B7AF75');

@@ -4,6 +4,7 @@ namespace App\Products\Infrastructure\Repository;
 
 use App\Products\Domain\Entity\Product;
 use App\Products\Domain\Repository\ProductRepositoryInterface;
+use App\Shared\Domain\Entity\EntityInterface;
 use App\Warehouses\Domain\Entity\Warehouse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -40,4 +41,15 @@ class ProductRepository extends ServiceEntityRepository implements ProductReposi
 //    {
 //
 //    }
+    public function save(EntityInterface $product): void
+    {
+        $this->_em->persist($product);
+        $this->_em->flush();
+    }
+
+    public function remove(EntityInterface $product): void
+    {
+        $this->_em->remove($product);
+        $this->_em->flush();
+    }
 }

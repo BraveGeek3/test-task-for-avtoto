@@ -25,10 +25,6 @@ class CreateOrderRequest
             'street',
             'buildingNumber',
         ],
-//        'products' => [
-//            'id',
-//            'count'
-//        ],
     ];
 
     private function __construct(
@@ -56,6 +52,10 @@ class CreateOrderRequest
             }
         }
 
+        if (!isset($data['products'])) {
+            throw new InvalidArgumentException("Products field required to process order");
+        }
+
         foreach ($data['products'] as $idx => $productData) {
             if (!isset($productData['id']) || !isset($productData['count'])) {
                 throw new InvalidArgumentException("Missed fields in product #$idx");
@@ -63,6 +63,10 @@ class CreateOrderRequest
 
             if (!IdentifierService::isValid($productData['id'])) {
                 throw new InvalidArgumentException("Invalid product id");
+            }
+
+            if ($productData['count'] <= 0) {
+                throw new InvalidArgumentException("Product count should be greater than 0");
             }
         }
 

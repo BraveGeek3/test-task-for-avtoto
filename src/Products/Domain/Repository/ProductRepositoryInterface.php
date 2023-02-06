@@ -2,7 +2,9 @@
 
 namespace App\Products\Domain\Repository;
 
-interface ProductRepositoryInterface
+use App\Shared\Domain\Repository\RepositoryInterface;
+
+interface ProductRepositoryInterface extends RepositoryInterface
 {
 
 }

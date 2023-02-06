@@ -1,5 +1,6 @@
 PHP := php
 CONSOLE := $(PHP) ./bin/console
+MAKE := make
 
 build:
 	#build and run containers detach
@@ -34,10 +35,10 @@ diff:
 	$(CONSOLE) doctrine:migrations:diff
 
 migrate:
-	$(CONSOLE) doctrine:migrations:migrate
+	$(CONSOLE) --no-interaction doctrine:migrations:migrate
 
 install-assets:
-	$(CONSOLE) assets:install --symlink
+	$(CONSOLE) --no-interaction assets:install --symlink
 
 #To use outside docker
 delete-containers:
@@ -45,3 +46,10 @@ delete-containers:
 
 delete-volumes:
 	docker volume rm $$(docker volume ls -q)
+
+#install dependencies, migrate, install assets, start php-fpm
+initialize:
+	composer install --no-interaction
+	$(MAKE) migrate
+	$(MAKE) install-assets
+	php-fpm

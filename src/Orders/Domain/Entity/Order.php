@@ -44,6 +44,7 @@ class Order implements EntityInterface
         $this->createdAt = new DateTime();
         $this->deliveryPrice = null;
         $this->products = new ArrayCollection();
+        $this->client = null;
     }
 
 
@@ -55,26 +56,19 @@ class Order implements EntityInterface
         return $this->id;
     }
 
-//    /**
-//     * @param mixed $id
-//     */
-//    public function setId($id): void
-//    {
-//        $this->id = $id;
-//    }
-
     /**
      * @return string
      */
-    public function getTransportCompanyId(): string
+    public function getTransportCompanyId(): ?string
     {
         return $this->transportCompanyId;
     }
 
     /**
-     * @param string $transportCompanyId
+     * @param string|null $transportCompanyId
+     * @return $this
      */
-    public function setTransportCompanyId(string $transportCompanyId): self
+    public function setTransportCompanyId(?string $transportCompanyId): self
     {
         $this->transportCompanyId = $transportCompanyId;
 

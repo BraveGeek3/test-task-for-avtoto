@@ -2,13 +2,11 @@
 
 namespace App\Clients\Infrastructure\Controller;
 
-use App\Clients\Domain\Entity\Client;
-use App\Clients\Domain\Factory\ClientFactory;
-use App\Clients\Domain\Repository\ClientRepositoryInterface;
-use App\Clients\Infrastructure\Repository\ClientRepository;
+use App\Clients\Domain\ValueObject\CreateClientRequest;
 use App\Clients\Infrastructure\Service\Manager\ClientManagerService;
 use Doctrine\ORM\EntityManagerInterface;
-use InvalidArgumentException;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +21,30 @@ class ClientController extends AbstractController
      * @return JsonResponse
      *
      * @Route("/create", name="create_client", methods={"POST"})
+     * @OA\RequestBody(
+     *     required=true,
+     *     @OA\MediaType(
+     *         mediaType="application/x-www-form-urlencoded",
+     *         @OA\Schema(
+     *             ref=@Model(type=CreateClientRequest::class)
+     *         )
+     *    )
+     *)
+     * @OA\Response(
+     *     response="201",
+     *     description="Returns client id",
+     *     @OA\JsonContent(
+     *         @OA\Property(type="string", property="clientId")
+     *     )
+     * )
+     * @OA\Response(
+     *     response="400",
+     *     description="Invalid credentials",
+     *     @OA\JsonContent(
+     *         @OA\Property(type="string", property="error")
+     *     )
+     * )
+     *
      */
     public function create(
         Request $request,
@@ -31,13 +53,7 @@ class ClientController extends AbstractController
     {
         $data = $request->request->all();
 
-        try {
-            $client = $clientManager->createClient($data);
-        } catch (InvalidArgumentException $e) {
-            return new JsonResponse([
-                'error' => $e->getMessage()
-            ], 400);
-        }
+        $client = $clientManager->createClient($data);
 
         return new JsonResponse([
             'clientId' => $client->getId(),

@@ -8,6 +8,7 @@ use App\Shared\Infrastructure\Service\Identifier\IdentifierService;
 use App\Warehouses\Domain\Entity\Warehouse;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use InvalidArgumentException;
 
 
 class Product implements EntityInterface
@@ -101,6 +102,17 @@ class Product implements EntityInterface
     public function setAvailableCount(int $availableCount): self
     {
         $this->availableCount = $availableCount;
+
+        return $this;
+    }
+
+    /**
+     * @param int $orderedCount
+     * @return $this
+     */
+    public function reduceAmount(int $orderedCount): self
+    {
+        $this->setAvailableCount($this->availableCount - $orderedCount);
 
         return $this;
     }

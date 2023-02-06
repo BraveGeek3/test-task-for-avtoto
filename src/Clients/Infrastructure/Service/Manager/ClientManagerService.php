@@ -26,8 +26,9 @@ class ClientManagerService
     public function createClient(array $data): ?Client
     {
         $createClientDto = CreateClientRequest::createFromeRequest($data);
-        if ($this->isExists($createClientDto->getEmail(), $createClientDto->getPhoneNumber())) {
-            throw new InvalidArgumentException("User with this email and phone number already exist");
+
+        if ($this->clientRepository->isExists($createClientDto->getEmail(), $createClientDto->getPhoneNumber())) {
+            throw new InvalidArgumentException("User with this email or phone number already exist");
         }
 
         $client = ClientFactory::create($createClientDto);
@@ -35,21 +36,5 @@ class ClientManagerService
         $this->clientRepository->save($client);
 
         return $client;
-    }
-
-    /**
-     * @param string $email
-     * @param string $phoneNumber
-     * @return bool
-     */
-    private function isExists(string $email, string $phoneNumber): bool
-    {
-        if (
-            null !== $this->clientRepository->findByEmail($email) ||
-            null !== $this->clientRepository->findByPhoneNumber($phoneNumber)
-        )
-            return true;
-
-        return false;
     }
 }

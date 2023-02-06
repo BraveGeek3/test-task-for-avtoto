@@ -8,6 +8,7 @@ use App\Clients\Domain\ValueObject\CreateClientRequest;
 use App\Orders\Domain\Entity\Order;
 use App\Shared\Domain\Factory\AddressFactory;
 use App\Shared\Domain\ValueObject\CreateAddress;
+use App\Shared\Infrastructure\Service\Identifier\IdentifierService;
 
 class OrderFactory
 {
@@ -27,12 +28,16 @@ class OrderFactory
 
         $order->setClient($client);
 
-        $order->setTransportCompanyId('123123');
+        $order
+            ->setTransportCompanyId(null)
+            ->setDeliveryPrice(null);
 
         if ($isCityEqual) {
             $order
                 ->setDeliveryPrice(0)
-                ->setStatus(Order::STATUSES['WAITING_TO_DISPATCH']);
+                ->setStatus(Order::STATUSES['WAITING_TO_DISPATCH'])
+//                нужно ли?
+                ->setTransportCompanyId(IdentifierService::generate());
         }
 
         return $order;

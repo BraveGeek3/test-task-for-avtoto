@@ -10,4 +10,5 @@ interface ClientRepositoryInterface extends RepositoryInterface
     public function findByEmail(string $email): ?Client;
     public function findByEmailAndPhoneNumber(string $email, string $phoneNumber): ?Client;
     public function findByPhoneNumber(string $phoneNumber): ?Client;
+    public function isExists(string $email, string $phoneNumber): bool;
 }
